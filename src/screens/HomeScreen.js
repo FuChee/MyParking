@@ -348,12 +348,11 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   recordItem: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 12,
+    marginTop: 50,
     marginBottom: 10,
-    borderWidth: 1,
-    borderColor: '#E6DDC4',
+  
   },
   recordTitle: {
     fontSize: 16,
