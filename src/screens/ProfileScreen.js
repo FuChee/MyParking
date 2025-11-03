@@ -123,7 +123,7 @@ export default function ProfileScreen({ navigation }) {
   );
 }
 
-const PRIMARY = '#0BA467'; // main green
+const PRIMARY = '#0BA467'; 
 const DARK_GREEN = '#4E5942';
 const BACKGROUND = '#F5F8F6';
 const LOGOUT_RED = '#D75C4A';

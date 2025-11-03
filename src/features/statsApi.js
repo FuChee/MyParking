@@ -19,18 +19,18 @@ export const statsApi = createApi({
 
           let totalDuration = 0;
           const slotCount = {};
-          const hourSlotCount = {}; // { hour: { slotKey: count } }
+          const hourSlotCount = {}; 
 
           data.forEach((rec) => {
             const created = new Date(rec.created_at);
             const hour = created.getHours();
             const slotKey = `Level ${rec.level} - Slot ${rec.slot_number}`;
 
-            // Count total per hour-slot combination
+           
             if (!hourSlotCount[hour]) hourSlotCount[hour] = {};
             hourSlotCount[hour][slotKey] = (hourSlotCount[hour][slotKey] || 0) + 1;
 
-            // Count overall slot usage
+        
             slotCount[slotKey] = (slotCount[slotKey] || 0) + 1;
 
             // Duration

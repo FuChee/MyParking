@@ -26,9 +26,16 @@ const Tab = createBottomTabNavigator();
 
 function ProfileStackScreen() {
   return (
-    <ProfileStack.Navigator
-      screenOptions={{ headerTitleAlign: 'center', headerTitleStyle: { fontWeight: 'bold' } }}
-    >
+      <ProfileStack.Navigator
+        screenOptions={{ 
+          headerTitleAlign: 'center', 
+          headerTitleStyle: { 
+            fontSize: 18,
+            fontWeight: '700',
+            color: '#2E2B23',
+          } 
+        }}
+      >
       <ProfileStack.Screen name="ProfileHome" component={ProfileScreen} options={{ title: 'Profile' }} />
       <ProfileStack.Screen name="Login" component={LoginScreen} options={{ title: 'Login' }} />
       <ProfileStack.Screen name="SignUp" component={SignupScreen} options={{ title: 'Sign Up' }} />
@@ -42,7 +49,7 @@ function SavedStackScreen() {
       screenOptions={{
         headerTitleAlign: 'center',
         headerTitleStyle: {
-          fontSize: 24,         
+          fontSize: 18,         
           fontWeight: '700',
           color: '#2E2B23',
         },

@@ -25,7 +25,7 @@ export default function HomeScreen() {
   const navigation = useNavigation();
 
   const [location, setLocation] = useState(null);
-  const [timestamp, setTimestamp] = useState(null); // 🕒 store last updated time
+  const [timestamp, setTimestamp] = useState(null); 
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -114,8 +114,8 @@ export default function HomeScreen() {
         setLoading(false);
       },
       { enableHighAccuracy: true, 
-        timeout: 20000,             // wait up to 20 seconds
-        maximumAge: 5000,           // allow cache from last 5s
+        timeout: 20000,            
+        maximumAge: 5000,         
         distanceFilter: 1,}
     );
   };
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   title: {
-    fontSize: 30,
+    fontSize: 18,
     fontWeight: '800',
     color: '#0BA467',
     marginTop: 20,

@@ -24,7 +24,7 @@ export default function StatsScreen() {
     error,
   } = useGetParkingStatsQuery(user?.id);
 
-  // Auto-refresh on Supabase real-time updates
+  // Auto-refresh 
   useEffect(() => {
     if (!user?.id) return;
 
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     paddingTop: 70 
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '700',
     color: '#2E2B23',
     marginBottom: 25,
