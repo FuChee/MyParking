@@ -296,50 +296,45 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     alignItems: 'center',
-    paddingTop: 50,
-    paddingBottom: 100,
+    paddingTop: 70,
+    paddingBottom: 120,
   },
+
+  // Titles
   title: {
-    fontSize: 18,
+    fontSize: 32,
     fontWeight: '800',
     color: '#0BA467',
-    marginTop: 20,
+    letterSpacing: 0.5,
   },
   subtitle: {
     fontSize: 16,
     color: '#7A6F56',
     textAlign: 'center',
-    marginVertical: 10,
+    marginVertical: 8,
     width: '85%',
   },
+
+  // Card style for current location
   card: {
     width: '90%',
     backgroundColor: '#FFFFFF',
-    borderRadius: 18,
-    padding: 18,
+    borderRadius: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 18,
     marginTop: 25,
     shadowColor: '#000',
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
-    elevation: 5,
-  },
-  timestampText: {
-    marginTop: 6,
-    fontSize: 14,
-    color: '#7A6F56',
-    fontStyle: 'italic',
-  },
-  todayCard: {
-    width: '100%',
-    padding: 20,
-    marginTop: 40,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 5 },
+    shadowRadius: 8,
+    elevation: 6,
+    borderLeftWidth: 4,
+    borderLeftColor: '#0BA467',
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   cardHeaderText: {
     fontSize: 18,
@@ -347,12 +342,44 @@ const styles = StyleSheet.create({
     color: '#3F3B2B',
     marginLeft: 8,
   },
+  locationText: {
+    fontSize: 15,
+    color: '#4A4A4A',
+    marginBottom: 5,
+  },
+  timestampText: {
+    marginTop: 6,
+    fontSize: 14,
+    color: '#7A6F56',
+    fontStyle: 'italic',
+  },
+
+  // Today's Parking
+  todayCard: {
+    width: '92%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 22,
+    paddingVertical: 24,
+    paddingHorizontal: 20,
+    marginTop: 40,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 3 },
+    shadowRadius: 6,
+    elevation: 5,
+    borderWidth: 1,
+    borderColor: '#E8F5EF',
+  },
+
   recordItem: {
-    borderRadius: 12,
-    padding: 12,
-    marginTop: 50,
-    marginBottom: 10,
-  
+    backgroundColor: '#F4FBF7',
+    borderRadius: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginTop: 10,
+    borderLeftWidth: 3,
+    borderLeftColor: '#0BA467',
   },
   recordTitle: {
     fontSize: 16,
@@ -364,50 +391,49 @@ const styles = StyleSheet.create({
     color: '#7A6F56',
     marginTop: 4,
   },
-  locationText: {
-    fontSize: 15,
-    color: '#4A4A4A',
-    marginBottom: 4,
-  },
 
-  emptyMessage: {
-    width: '100%',
+  // Empty message for no records
+  noRecordContainer: {
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 30,
-    marginTop: 40,
+    paddingVertical: 28,
   },
   noRecordText: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '700',
     color: '#5C4E33',
-    marginTop: 8,
+    marginTop: 6,
   },
   noRecordSubText: {
     fontSize: 15,
     color: '#7A6F56',
-    marginTop: 4,
+    marginTop: 3,
   },
+
+  // Floating Action Button
   fab: {
     position: 'absolute',
     right: 25,
     bottom: 40,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 65,
+    height: 65,
+    borderRadius: 33,
     backgroundColor: '#0BA467',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 8,
     elevation: 6,
   },
+
+  // Modal
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.45)',
   },
   modalBox: {
     width: '85%',
@@ -415,9 +441,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 25,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 8,
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '700',
     color: '#0BA467',
     marginBottom: 20,
@@ -425,16 +455,20 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     borderWidth: 1,
+    borderColor: '#D9D9D9',
     borderRadius: 12,
     padding: 12,
     marginBottom: 15,
+    fontSize: 15,
+    color: '#333',
   },
   modalButton: {
     width: '100%',
     backgroundColor: '#0BA467',
-    borderRadius: 10,
+    borderRadius: 12,
     paddingVertical: 14,
     alignItems: 'center',
+    marginTop: 5,
   },
   buttonText: {
     fontSize: 17,
