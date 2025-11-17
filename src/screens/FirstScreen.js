@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
 import { UserContext } from '../context/UserContext';
+import Background from '../assets/Background';
 
 export default function FirstScreen({ navigation }) {
   const { user, setUser } = useContext(UserContext);
@@ -17,37 +18,42 @@ export default function FirstScreen({ navigation }) {
 
   if (!user) {
     return (
-      <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Ionicons name="car-sport" size={120} color="#2E7D32" />
-        </View>
-
-        <View style={styles.bottomSection}>
-          <Text style={styles.title}>Welcome!</Text>
-          <Text style={styles.desc}>
-            This app is the simplest way to save your parking lot using your smartphone
-          </Text>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Login')}
-          >
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
-
+      <Background>
+      
+        <View style={styles.container}>
+          <View style={styles.logoContainer}>
+            <Ionicons name="car-sport" size={120} color="#2E7D32" />
           </View>
-      </View>
+
+          <View style={styles.bottomSection}>
+            <Text style={styles.title}>Welcome!</Text>
+            <Text style={styles.desc}>
+              This app is the simplest way to save your parking lot using your smartphone
+            </Text>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Login')}
+            >
+              <Text style={styles.buttonText}>Next</Text>
+            </TouchableOpacity>
+
+            </View>
+        </View>
+      </Background> 
     );
   }
 
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hello, {user.name}!</Text>
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
+    <Background>
+      <View style={styles.container}>
+        <Text style={styles.title}>Hello, {user.name}!</Text>
+        <TouchableOpacity style={styles.button} onPress={handleLogout}>
+          <Text style={styles.buttonText}>Logout</Text>
+        </TouchableOpacity>
+      </View>
+    </Background>
   );
 }
 

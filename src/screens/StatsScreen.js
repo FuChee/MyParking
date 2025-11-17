@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { UserContext } from '../context/UserContext';
 import { useGetParkingStatsQuery } from '../features/statsApi';
-import * as Animatable from 'react-native-animatable';
 import { supabase } from '../lib/supabase';
 import { useFocusEffect } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,12 +18,11 @@ export default function StatsScreen() {
   const {
     data: statsData,
     isLoading,
-    isFetching,
     refetch,
     error,
   } = useGetParkingStatsQuery(user?.id);
 
-  // Auto-refresh 
+  // Auto-refresh when database updates
   useEffect(() => {
     if (!user?.id) return;
 
@@ -33,23 +31,19 @@ export default function StatsScreen() {
       .on(
         'postgres_changes',
         {
-          event: '*', 
+          event: '*',
           schema: 'public',
           table: 'parking_records',
           filter: `user_id=eq.${user.id}`,
         },
-        (payload) => {
-          console.log('🔔 Parking record changed:', payload);
-          refetch(); 
-        }
+        () => refetch()
       )
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel); 
+      supabase.removeChannel(channel);
     };
   }, [user?.id, refetch]);
-
 
   useFocusEffect(
     useCallback(() => {
@@ -81,10 +75,7 @@ export default function StatsScreen() {
       <View style={styles.centered}>
         <Ionicons name="alert-circle-outline" size={50} color="#C2B490" />
         <Text style={styles.emptyText}>Error loading statistics</Text>
-        <TouchableOpacity
-          style={styles.retryButton}
-          onPress={() => refetch()}
-        >
+        <TouchableOpacity style={styles.retryButton} onPress={refetch}>
           <Text style={styles.retryText}>Retry</Text>
         </TouchableOpacity>
       </View>
@@ -108,48 +99,46 @@ export default function StatsScreen() {
     .slice(0, 3);
 
   return (
-    <ScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
-      <Animatable.Text animation="fadeInDown" duration={600} style={styles.title}>
-        Parking Insights
-      </Animatable.Text>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <Text style={styles.title}>Parking Insights</Text>
 
       {/* Total Duration */}
-      <Animatable.View animation="fadeInUp" duration={600} delay={150} style={styles.summaryCard}>
+      <View style={styles.summaryCard}>
         <Text style={styles.summaryLabel}>Total Parking Duration</Text>
         <Text style={styles.summaryValue}>
           {formatDuration(statsData.totalDuration || 0)}
         </Text>
-      </Animatable.View>
+      </View>
 
       {/* Average Session */}
-      <Animatable.View animation="fadeInUp" duration={600} delay={250} style={styles.infoCard}>
+      <View style={styles.infoCard}>
         <Text style={styles.infoLabel}>Average Parking Duration</Text>
         <Text style={styles.infoValue}>{formatDuration(averageDuration)}</Text>
-      </Animatable.View>
+      </View>
 
       {/* Preferred Time & Slot */}
-      <Animatable.View animation="fadeInUp" duration={600} delay={350} style={styles.infoCard}>
+      <View style={styles.infoCard}>
         <Text style={styles.infoLabel}>Preferred Parking Time</Text>
         <Text style={styles.infoValue}>
-          {statsData.preferredTimeRange && statsData.preferredTimeRange.trim() !== '' && statsData.preferredTimeRange.toLowerCase() !== 'no data yet'
+          {statsData.preferredTimeRange &&
+          statsData.preferredTimeRange.trim() !== '' &&
+          statsData.preferredTimeRange.toLowerCase() !== 'no data yet'
             ? statsData.preferredTimeRange
             : 'No data available'}
         </Text>
 
         <Text style={[styles.infoLabel, { marginTop: 10 }]}>Preferred Slot</Text>
         <Text style={styles.infoValue}>
-          {statsData.preferredSlot && statsData.preferredSlot.trim() !== '' && statsData.preferredSlot.toLowerCase() !== 'no data'
+          {statsData.preferredSlot &&
+          statsData.preferredSlot.trim() !== '' &&
+          statsData.preferredSlot.toLowerCase() !== 'no data'
             ? `Usually parks at ${statsData.preferredSlot}`
             : 'No data available'}
         </Text>
-      </Animatable.View>
-
+      </View>
 
       {/* Top 3 Slots */}
-      <Animatable.View animation="fadeInUp" duration={600} delay={400} style={styles.freqCard}>
+      <View style={styles.freqCard}>
         <Text style={styles.label}>Top 3 Frequently Used Slots</Text>
         {topSlots.length === 0 ? (
           <Text style={styles.noDataText}>No slot data available.</Text>
@@ -165,33 +154,23 @@ export default function StatsScreen() {
                   <Text style={styles.count}>{count}×</Text>
                 </View>
                 <View style={styles.barContainer}>
-                  <Animatable.View
-                    animation="fadeInLeft"
-                    duration={800}
-                    delay={index * 200}
-                    style={[styles.barFill, { width: `${widthPercent}%` }]}
-                  />
+                  <View style={[styles.barFill, { width: `${widthPercent}%` }]} />
                 </View>
               </View>
             );
           })
         )}
-      </Animatable.View>
+      </View>
 
-      {/* Tip */}
-      <Animatable.Text animation="fadeIn" duration={700} delay={450} style={styles.tipText}>
+      <Text style={styles.tipText}>
         💡 Tip: View full parking history in “Saved Locations” → “Completed” tab.
-      </Animatable.Text>
+      </Text>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    padding: 20, 
-    paddingTop: 70 
-  },
+  container: { flex: 1, padding: 20, paddingTop: 70 },
   title: {
     fontSize: 18,
     fontWeight: '700',
@@ -210,16 +189,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     elevation: 3,
   },
-  summaryLabel: { 
-    color: '#E8F5EF', 
-    fontSize: 16, 
-    fontWeight: '500' 
+  summaryLabel: { color: '#E8F5EF', fontSize: 16, fontWeight: '500' },
+  summaryValue: {
+    color: '#FFF',
+    fontSize: 30,
+    fontWeight: '700',
+    marginTop: 6,
   },
-  summaryValue: { 
-    color: '#FFF', 
-    fontSize: 30, 
-    fontWeight: '700', 
-    marginTop: 6 },
   infoCard: {
     backgroundColor: '#FFF',
     borderRadius: 16,
@@ -231,16 +207,12 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 2,
   },
-  infoLabel: { 
-    color: '#3C3523', 
-    fontSize: 17, 
-    fontWeight: '600'
-  },
-  infoValue: { 
-    color: '#0BA467', 
-    fontSize: 22, 
-    fontWeight: '700', 
-    marginTop: 5 
+  infoLabel: { color: '#3C3523', fontSize: 17, fontWeight: '600' },
+  infoValue: {
+    color: '#0BA467',
+    fontSize: 22,
+    fontWeight: '700',
+    marginTop: 5,
   },
   freqCard: {
     backgroundColor: '#FFF',
@@ -256,7 +228,11 @@ const styles = StyleSheet.create({
   },
   label: { fontSize: 18, fontWeight: '700', marginBottom: 14, color: '#333' },
   slotItem: { marginBottom: 14 },
-  slotHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  slotHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   rank: { color: '#0BA467', fontWeight: '700', marginRight: 6, fontSize: 16 },
   slotText: { flex: 1, fontSize: 16, color: '#333' },
   count: { color: '#666', fontSize: 15, fontWeight: '500' },
@@ -268,30 +244,26 @@ const styles = StyleSheet.create({
     marginTop: 6,
     overflow: 'hidden',
   },
-  barFill: { 
-    height: '100%', 
-    backgroundColor: '#0BA467', 
-    borderRadius: 5, 
-    opacity: 0.9 
+  barFill: {
+    height: '100%',
+    backgroundColor: '#0BA467',
+    borderRadius: 5,
+    opacity: 0.9,
   },
-  noDataText: { 
-    color: '#8B8575', 
-    fontSize: 14, 
-    textAlign: 'center', 
-    marginTop: 10 
+  noDataText: {
+    color: '#8B8575',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 10,
   },
-  tipText: { 
-    textAlign: 'center', 
-    color: '#7A7463', 
-    fontSize: 13, 
-    marginBottom: 50, 
-    marginTop: 10 
+  tipText: {
+    textAlign: 'center',
+    color: '#7A7463',
+    fontSize: 13,
+    marginBottom: 50,
+    marginTop: 10,
   },
-  centered: { 
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center' 
-  },
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   retryButton: {
     backgroundColor: '#0BA467',
     paddingVertical: 8,
@@ -299,17 +271,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 12,
   },
-  retryText: { 
-    color: '#fff', 
-    fontWeight: '600'
-   },
-  emptyText: { 
-    color: '#555', 
-    fontSize: 16,
-    marginTop: 10 
-    },
-  loadingText: { 
-    color: '#5A5648', 
-    fontSize: 16 
-  },
+  retryText: { color: '#fff', fontWeight: '600' },
+  emptyText: { color: '#555', fontSize: 16, marginTop: 10 },
+  loadingText: { color: '#5A5648', fontSize: 16 },
 });

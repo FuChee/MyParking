@@ -1,19 +1,8 @@
 import React, { useState, useContext } from 'react';
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useLoginMutation } from '../profile/loginApi';
 import { UserContext } from '../context/UserContext';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -22,19 +11,26 @@ export default function LoginScreen({ navigation }) {
   const { setUser } = useContext(UserContext);
 
   const handleLogin = async () => {
-    if (!email.trim() || !password.trim()) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return;
-    }
+  if (!email.trim() || !password.trim()) {
+    Alert.alert('Error', 'Please fill in all fields');
+    return;
+  }
 
-    try {
-      const user = await login({ email, password }).unwrap();
-      setUser(user);
-    } catch (err) {
-      console.log('Login error:', err);
+  try {
+    const user = await login({ email, password }).unwrap();
+    setUser(user);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'MainTabs' }], 
+    });
+  } catch (err) {
+    if (err.status === 'FETCH_ERROR' || err.message?.includes('Network')) {
+      Alert.alert('Network Error', 'Unable to connect. Please check your internet.');
+    } else {
       Alert.alert('Error', 'Invalid email or password');
     }
-  };
+  }
+};
 
   const isButtonActive = email.trim() && password.trim();
 
