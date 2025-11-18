@@ -19,10 +19,6 @@ export default function LoginScreen({ navigation }) {
   try {
     const user = await login({ email, password }).unwrap();
     setUser(user);
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'MainTabs' }], 
-    });
   } catch (err) {
     if (err.status === 'FETCH_ERROR' || err.message?.includes('Network')) {
       Alert.alert('Network Error', 'Unable to connect. Please check your internet.');
